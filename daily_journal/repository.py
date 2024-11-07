@@ -42,4 +42,4 @@ class Entries:
         
         #initialize the tables
         init_entries_table(self.conn, self.logger)
-        
+

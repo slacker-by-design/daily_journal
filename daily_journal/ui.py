@@ -88,6 +88,8 @@ class CalendarPage(ttk.Frame):
         self.calendar_label.place(anchor = 'n', relx = .5, y = 5, width = 200, height = 40)
         self.calendar_frame.place(anchor = 'center', relx = .5, rely =.25, width = 300, height = 300)
 
+    # TODO: I'd recommend to extract this to a dedicated CalendarFrame(ttk.Frame) widget class
+    # As some ancient guy said - Divide and conquer :-)
     def populate_calendar_frame(self):
         #clear the calendar frame
         for widget in self.calendar_frame.winfo_children():
@@ -101,8 +103,13 @@ class CalendarPage(ttk.Frame):
             self.calendar_frame.grid_columnconfigure(i,weight = 1, uniform = 'calendar_column')
             self.calendar_frame.grid_rowconfigure(i, weight = 1, uniform = 'calendar_row')
 
-        #build and grid the days of the week labels        
+        #build and grid the days of the week labels
+        # TODO: I'd suggest to "delegate" ownership of this list to the
+        # dedicated model class (see my comment at Controller.build_calendar_matrix)
+        # or reuse existing calendar.day_abbr sequence...
         days = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
+
+        # FIXME: remember to put space after , (i.e. "for i, day in")
         for i,day in enumerate(days):
             ttk.Label(self.calendar_frame, text = day).grid(row = 0, column = i)
 
@@ -112,6 +119,8 @@ class CalendarPage(ttk.Frame):
                     button.grid(row = r, column = c, sticky = 'nsew')
         
     def build_calendar_matrix(self) -> list:
+        # TODO: if you pass cont.calendar_matrix as an argument, you won't need to keep
+        # reference to the whole controller in (newly created) CalendarFrame widget ...
         ref_cal_matrix = self.cont.calendar_matrix
         
         calendar_matrix = []

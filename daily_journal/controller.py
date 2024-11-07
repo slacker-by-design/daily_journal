@@ -51,12 +51,16 @@ class Controller:
         #this returns the currently focused date
         return self._focus_date
 
+    # TODO: Consider use of dedicated model class (e.g. Day) which would be responsible for
+    # "low level" details such as formatting of the date for presentation (and also for DB storage)
     def get_focus_date_str(self) ->str:
         #returns a string of the date in 'MonthName Day, Year' format
         month_str = cal.month_name[self._focus_date.month]
         date_str = f'{month_str} {self._focus_date.day}, {self._focus_date.year}'
         return date_str
 
+    # TODO: Consider defining a dedicated model class (e.g. MonthCalendar / MonthMatrix) and put this logic there...
+    # Controller should be orchestrating, this logic is "too low level"
     def build_calendar_matrix(self) -> list:
         #pull the day matrix from the calendar library
         month_matrix = cal.monthcalendar(self._focus_date.year, self._focus_date.month)
